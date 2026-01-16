@@ -51,3 +51,4 @@ A Postman collection with all endpoints is included in the repository.
    bash :
    git clone https://github.com/mohadeb12/storage-management-system.git
    cd storage-management-system
+   
