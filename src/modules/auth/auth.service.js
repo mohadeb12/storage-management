@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const User = require('../user/user.model');
 const generateToken = require('../../utils/generateToken');
+const sendEmail = require('../../utils/sendEmail');
 
 const sanitizeUser = user => {
   const obj = user.toObject();
@@ -61,9 +62,15 @@ const forgotPassword = async data => {
   user.resetCode = code;
   user.resetCodeExpiresAt = expires;
   await user.save();
+
+  await sendEmail({
+    to: user.email,
+    subject: 'Password reset code',
+    text: `Your verification code is ${code}. It will expire in 15 minutes.`
+  });
+
   return {
-    email: user.email,
-    code
+    email: user.email
   };
 };
 
